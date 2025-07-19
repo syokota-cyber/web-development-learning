@@ -1,0 +1,70 @@
+{
+  "projects": {
+    "/Users/syokota_mac/learning-projects/web-development": {
+      "allowedTools": [
+        "Read",
+        "Edit",
+        "LS",
+        "Grep",
+        "WebSearch",
+        "Task"
+      ],
+      "permissions": {
+        "deny": [
+          "Bash(npm run dev:*)",
+          "Bash(npm run start:*)",
+          "Bash(yarn dev:*)",
+          "Bash(yarn start:*)",
+          "Bash(rm -rf:*)",
+          "Bash(git push:*)"
+        ],
+        "requireConfirmation": [
+          "Edit",
+          "MultiEdit",
+          "Write",
+          "Bash(git commit:*)"
+        ]
+      },
+      "hooks": {
+        "beforeEdit": [
+          ".claude/hooks/before-edit.sh"
+        ],
+        "afterEdit": [
+          ".claude/hooks/after-edit.sh"
+        ],
+        "beforeCommand": [
+          ".claude/hooks/before-command.sh"
+        ]
+      },
+      "learningMode": {
+        "enabled": true,
+        "maxLinesPerEdit": 5,
+        "requireExplanation": true,
+        "pauseAfterEdit": true,
+        "showAlternatives": true,
+        "confirmUnderstanding": true
+      }
+    }
+  },
+  "globalSettings": {
+    "learningPreferences": {
+      "preferStepByStep": true,
+      "explainBeforeCode": true,
+      "confirmUnderstanding": true,
+      "maxComplexity": "beginner",
+      "autoSave": true,
+      "trackProgress": true
+    },
+    "codeStyle": {
+      "language": "typescript",
+      "framework": "react",
+      "linting": true,
+      "formatting": "prettier"
+    },
+    "safety": {
+      "preventDestructiveCommands": true,
+      "backupBeforeEdit": true,
+      "confirmMajorChanges": true
+    }
+  }
+}

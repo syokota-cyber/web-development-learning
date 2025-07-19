@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web開発の基礎 - 学習ページ</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Web開発の基礎</h1>
+        <nav>
+            <ul>
+                <li><a href="#html-section">HTML</a></li>
+                <li><a href="#css-section">CSS</a></li>
+                <li><a href="#js-section">JavaScript</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="html-section">
+            <h2>HTML基礎</h2>
+            <p>HTMLは<strong>HyperText Markup Language</strong>の略で、Webページの構造を定義します。</p>
+            
+            <h3>基本的なタグ</h3>
+            <ul>
+                <li><code>&lt;h1&gt;</code> - <code>&lt;h6&gt;</code>: 見出しタグ</li>
+                <li><code>&lt;p&gt;</code>: 段落タグ</li>
+                <li><code>&lt;a&gt;</code>: リンクタグ</li>
+                <li><code>&lt;img&gt;</code>: 画像タグ</li>
+                <li><code>&lt;div&gt;</code>: 汎用コンテナ</li>
+            </ul>
+
+            <div class="example-box">
+                <h4>実例：</h4>
+                <p>これは<em>段落</em>の例です。<a href="https://developer.mozilla.org/ja/">MDN</a>でさらに学習できます。</p>
+            </div>
+        </section>
+
+        <section id="css-section">
+            <h2>CSS基礎（次のステップ）</h2>
+            <p>CSSはスタイリングとレイアウトを担当します。</p>
+        </section>
+
+        <section id="js-section">
+            <h2>JavaScript基礎（次のステップ）</h2>
+            <p>JavaScriptでインタラクティブ性を追加します。</p>
+            <button id="demo-button">クリックしてください</button>
+            <p id="demo-text">ここにメッセージが表示されます</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Web開発学習プロジェクト</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

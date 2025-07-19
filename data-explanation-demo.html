@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>データ保存の仕組み解説</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        body { 
+            font-family: system-ui, -apple-system, sans-serif; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            padding: 20px; 
+            line-height: 1.6;
+        }
+        .section { 
+            background: #f8f9fa; 
+            padding: 20px; 
+            margin: 20px 0; 
+            border-radius: 8px; 
+            border-left: 4px solid #007bff;
+        }
+        .memory-demo { background: #fff3cd; border-left-color: #ffc107; }
+        .localstorage-demo { background: #d1ecf1; border-left-color: #17a2b8; }
+        .code { 
+            background: #f1f3f4; 
+            padding: 10px; 
+            border-radius: 4px; 
+            font-family: 'Monaco', monospace; 
+            margin: 10px 0;
+        }
+        button { 
+            background: #007bff; 
+            color: white; 
+            border: none; 
+            padding: 8px 16px; 
+            border-radius: 4px; 
+            cursor: pointer; 
+            margin: 5px;
+        }
+        .btn-warning { background: #ffc107; color: #212529; }
+        .btn-info { background: #17a2b8; }
+        .btn-danger { background: #dc3545; }
+        .data-display {
+            background: white;
+            border: 1px solid #dee2e6;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        function DataExplanationApp() {
+            // 🧠 メモリ保存（一時的）
+            const [memoryData, setMemoryData] = React.useState({
+                name: "ショコたんご",
+                progress: "データ保存の仕組み学習中"
+            });
+            
+            // 💾 localStorage保存（永続的）
+            const [persistentData, setPersistentData] = React.useState(() => {
+                const saved = localStorage.getItem('learningData');
+                return saved ? JSON.parse(saved) : {
+                    name: "未設定",
+                    completedTopics: []
+                };
+            });
+            
+            const [newTopic, setNewTopic] = React.useState("");
+
+            // メモリデータの更新
+            const updateMemoryData = () => {
+                setMemoryData({
+                    name: "ショコたんご",
+                    progress: `更新時刻: ${new Date().toLocaleTimeString()}`
+                });
+            };
+
+            // localStorageデータの更新
+            const updatePersistentData = () => {
+                if (!newTopic.trim()) return;
+                
+                const updated = {
+                    ...persistentData,
+                    completedTopics: [...persistentData.completedTopics, {
+                        topic: newTopic,
+                        completedAt: new Date().toLocaleString()
+                    }]
+                };
+                
+                setPersistentData(updated);
+                localStorage.setItem('learningData', JSON.stringify(updated));
+                setNewTopic("");
+            };
+
+            // データクリア
+            const clearMemoryData = () => {
+                setMemoryData({ name: "", progress: "" });
+            };
+
+            const clearPersistentData = () => {
+                const cleared = { name: "未設定", completedTopics: [] };
+                setPersistentData(cleared);
+                localStorage.setItem('learningData', JSON.stringify(cleared));
+            };
+
+            return (
+                <div>
+                    <h1>🔍 Reactのデータ保存場所解説</h1>
+                    
+                    <div className="section">
+                        <h2>💡 重要なポイント</h2>
+                        <ul>
+                            <li><strong>メモリ保存</strong>: ページリロードで消える（一時的）</li>
+                            <li><strong>localStorage</strong>: ブラウザに永続保存</li>
+                            <li><strong>異なるHTMLファイル</strong>: データ共有されない</li>
+                        </ul>
+                    </div>
+
+                    {/* メモリ保存デモ */}
+                    <div className="section memory-demo">
+                        <h2>🧠 メモリ保存（一時的）- useState</h2>
+                        <p>これが今までの例で使っていた方法です</p>
+                        
+                        <div className="code">
+                            const [data, setData] = useState(初期値); // ← メモリのみ
+                        </div>
+                        
+                        <div className="data-display">
+                            <strong>現在のデータ:</strong><br/>
+                            名前: {memoryData.name}<br/>
+                            進捗: {memoryData.progress}
+                        </div>
+                        
+                        <button onClick={updateMemoryData} className="btn-warning">
+                            🔄 メモリデータ更新
+                        </button>
+                        <button onClick={clearMemoryData} className="btn-danger">
+                            🗑️ メモリデータクリア
+                        </button>
+                        
+                        <p><strong>⚠️ 注意:</strong> ページをリロード（F5）すると初期値に戻ります</p>
+                    </div>
+
+                    {/* localStorage保存デモ */}
+                    <div className="section localstorage-demo">
+                        <h2>💾 localStorage保存（永続的）</h2>
+                        <p>ブラウザを閉じても残る方法</p>
+                        
+                        <div className="code">
+                            localStorage.setItem('key', JSON.stringify(data)); // ← 永続保存
+                        </div>
+                        
+                        <div className="data-display">
+                            <strong>永続データ:</strong><br/>
+                            名前: {persistentData.name}<br/>
+                            完了した学習項目: {persistentData.completedTopics.length}個
+                            
+                            {persistentData.completedTopics.length > 0 && (
+                                <div style={{marginTop: '10px'}}>
+                                    <strong>学習履歴:</strong>
+                                    {persistentData.completedTopics.map((item, index) => (
+                                        <div key={index} style={{fontSize: '12px', color: '#666'}}>
+                                            ✅ {item.topic} ({item.completedAt})
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                        
+                        <div>
+                            <input 
+                                type="text"
+                                value={newTopic}
+                                onChange={(e) => setNewTopic(e.target.value)}
+                                placeholder="新しい学習項目を追加"
+                                style={{padding: '8px', marginRight: '10px', width: '200px'}}
+                            />
+                            <button onClick={updatePersistentData} className="btn-info">
+                                💾 永続保存
+                            </button>
+                        </div>
+                        
+                        <button onClick={clearPersistentData} className="btn-danger">
+                            🗑️ 永続データクリア
+                        </button>
+                        
+                        <p><strong>✅ 確認:</strong> ページをリロード（F5）しても残ります！</p>
+                    </div>
+
+                    {/* 実験コーナー */}
+                    <div className="section">
+                        <h2>🧪 実験してみよう</h2>
+                        <ol>
+                            <li><strong>メモリデータを更新</strong>してからページをリロード → 消える</li>
+                            <li><strong>永続データを追加</strong>してからページをリロード → 残る</li>
+                            <li><strong>ブラウザを完全に閉じて</strong>再度開く → 永続データのみ残る</li>
+                        </ol>
+                        
+                        <div className="code">
+                            {`// 現在のlocalStorageの中身を確認
+console.log(localStorage.getItem('learningData'));
+
+// 開発者ツールのApplicationタブでも確認可能`}
+                        </div>
+                    </div>
+
+                    {/* 技術的説明 */}
+                    <div className="section">
+                        <h2>⚙️ 技術的な違い</h2>
+                        <table style={{width: '100%', borderCollapse: 'collapse'}}>
+                            <thead>
+                                <tr style={{background: '#e9ecef'}}>
+                                    <th style={{padding: '8px', border: '1px solid #dee2e6'}}>保存方法</th>
+                                    <th style={{padding: '8px', border: '1px solid #dee2e6'}}>保存場所</th>
+                                    <th style={{padding: '8px', border: '1px solid #dee2e6'}}>永続性</th>
+                                    <th style={{padding: '8px', border: '1px solid #dee2e6'}}>容量制限</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style={{padding: '8px', border: '1px solid #dee2e6'}}>useState</td>
+                                    <td style={{padding: '8px', border: '1px solid #dee2e6'}}>ブラウザのメモリ</td>
+                                    <td style={{padding: '8px', border: '1px solid #dee2e6'}}>❌ リロードで消失</td>
+                                    <td style={{padding: '8px', border: '1px solid #dee2e6'}}>メモリ次第</td>
+                                </tr>
+                                <tr>
+                                    <td style={{padding: '8px', border: '1px solid #dee2e6'}}>localStorage</td>
+                                    <td style={{padding: '8px', border: '1px solid #dee2e6'}}>ブラウザのローカルDB</td>
+                                    <td style={{padding: '8px', border: '1px solid #dee2e6'}}>✅ 永続保存</td>
+                                    <td style={{padding: '8px', border: '1px solid #dee2e6'}}>~5-10MB</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            );
+        }
+
+        // アプリをレンダリング
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<DataExplanationApp />);
+    </script>
+</body>
+</html>
