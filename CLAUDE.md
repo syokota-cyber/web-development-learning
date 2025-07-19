@@ -69,12 +69,41 @@ git status
 git log --oneline
 ```
 
+## 📚 学習ログ管理
+### 日別学習記録の確認
+```bash
+# 学習ログ索引を確認
+open learning-logs/index.md
+
+# 今日の学習ログ確認
+open learning-logs/2025/07/$(date +%Y-%m-%d).md
+
+# 今月の学習ログ一覧
+ls learning-logs/2025/$(date +%m)/
+```
+
+### 新しい学習ログの作成
+```bash
+# テンプレートから新規作成
+cp learning-logs/log-template.md learning-logs/2025/$(date +%m)/$(date +%Y-%m-%d).md
+
+# 直接編集
+code learning-logs/2025/$(date +%m)/$(date +%Y-%m-%d).md
+```
+
+### 学習ログの構成
+- `learning-logs/index.md` - 全体の索引とサマリー
+- `learning-logs/YYYY/MM/YYYY-MM-DD.md` - 日別詳細ログ
+- `learning-logs/log-template.md` - 新規ログ作成用テンプレート
+
 ## 🔄 学習再開方法
 1. `cd ~/learning-projects/web-development`
 2. `claude` で Claude Code を起動
-3. `/learn "React基礎"` または `/learn "Node.js基礎"` で再開
-4. 完成したポートフォリオを確認: `open profile.html`
-5. 学習成果をGitにコミット: `git add . && git commit -m "学習内容" && git push`
+3. **前回の学習ログを確認**: `open learning-logs/index.md`
+4. `/learn "React基礎"` または `/learn "Node.js基礎"` で再開
+5. 完成したポートフォリオを確認: `open profile.html`
+6. **学習ログを更新**: 本日の学習内容を記録
+7. 学習成果をGitにコミット: `git add . && git commit -m "学習内容" && git push`
 
 ## 💡 学習のコツ
 - 完璧を求めず段階的に進める
