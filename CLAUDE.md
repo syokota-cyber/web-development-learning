@@ -46,19 +46,39 @@
 - デプロイメント手順
 
 ## 📊 進捗管理
-- 完了した概念: [HTML5基礎, CSS3スタイリング, JavaScript DOM操作, インタラクティブUI]
-- 進行中の概念: []
-- 次に学ぶ概念: [React/Vue.js フレームワーク, Node.js バックエンド開発]
+- 完了した概念: [HTML5基礎, CSS3スタイリング, JavaScript DOM操作, React基礎, Props, State, イベントハンドリング, リスト表示, フォーム処理, Git/GitHubバージョン管理]
+- 進行中の概念: [データ永続化(localStorage), アプリ統合]
+- 次に学ぶ概念: [Create React App, Node.js バックエンド開発, API連携]
 - 復習が必要な概念: []
+
+## 🔗 GitHubリポジトリ情報
+- **リポジトリURL**: https://github.com/syokota-cyber/web-development-learning
+- **説明**: 🎓 React基礎から始める段階的Web開発学習リポジトリ - Claude Codeを使用した学習記録
+- **アクセス**: パブリック
+- **ローカルパス**: `/Users/syokota_mac/learning-projects/web-development`
+
+### Git操作コマンド
+```bash
+# 変更をプッシュ
+git add .
+git commit -m "変更内容の説明"
+git push
+
+# 状況確認
+git status
+git log --oneline
+```
 
 ## 🔄 学習再開方法
 1. `cd ~/learning-projects/web-development`
 2. `claude` で Claude Code を起動
 3. `/learn "React基礎"` または `/learn "Node.js基礎"` で再開
 4. 完成したポートフォリオを確認: `open profile.html`
+5. 学習成果をGitにコミット: `git add . && git commit -m "学習内容" && git push`
 
 ## 💡 学習のコツ
 - 完璧を求めず段階的に進める
 - エラーを恐れずに実際にコードを書く
 - 分からないことは遠慮なく質問する
 - 他の実装方法も積極的に学ぶ
+- **学習成果は必ずGitでバージョン管理する**
