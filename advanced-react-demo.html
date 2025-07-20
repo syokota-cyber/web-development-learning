@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>高機能React学習アプリ - リスト&フォーム</title>
+    <!-- React CDN -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <!-- Babel -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f8f9fa;
+        }
+        .app-container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .form-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 8px 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 6px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+        .error {
+            color: #dc3545;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+        .btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-right: 10px;
+        }
+        .btn:hover { background: #0056b3; }
+        .btn-danger { background: #dc3545; }
+        .btn-danger:hover { background: #c82333; }
+        .btn-small {
+            padding: 4px 8px;
+            font-size: 12px;
+        }
+        .todo-list {
+            margin-top: 20px;
+        }
+        .todo-item {
+            background: #fff;
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .todo-item.completed {
+            background: #f8f9fa;
+            opacity: 0.7;
+        }
+        .todo-content {
+            flex: 1;
+        }
+        .todo-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .todo-meta {
+            font-size: 12px;
+            color: #6c757d;
+        }
+        .todo-actions {
+            display: flex;
+            gap: 5px;
+        }
+        .filters {
+            margin: 20px 0;
+            text-align: center;
+        }
+        .filter-btn {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 0 2px;
+            font-size: 12px;
+        }
+        .filter-btn.active {
+            background: #007bff;
+        }
+        .stats {
+            background: #e9ecef;
+            padding: 15px;
+            border-radius: 6px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        // 高機能Todo アプリケーション
+        function TodoApp() {
+            // State管理
+            const [todos, setTodos] = React.useState([
+                { id: 1, title: "React基礎を学ぶ", category: "学習", priority: "high", completed: true, createdAt: new Date('2025-01-01') },
+                { id: 2, title: "Props を理解する", category: "学習", priority: "high", completed: true, createdAt: new Date('2025-01-02') },
+                { id: 3, title: "State を実装してみる", category: "学習", priority: "medium", completed: true, createdAt: new Date('2025-01-03') },
+                { id: 4, title: "リスト表示をマスターする", category: "学習", priority: "high", completed: false, createdAt: new Date() }
+            ]);
+            
+            // フォーム用State
+            const [formData, setFormData] = React.useState({
+                title: '',
+                category: '学習',
+                priority: 'medium'
+            });
+            
+            // フィルター用State
+            const [filter, setFilter] = React.useState('all');
+            
+            // エラー表示用State
+            const [errors, setErrors] = React.useState({});
+            
+            // フォーム入力ハンドラー
+            const handleInputChange = (e) => {
+                const { name, value } = e.target;
+                setFormData(prev => ({
+                    ...prev,
+                    [name]: value
+                }));
+                
+                // エラーをクリア
+                if (errors[name]) {
+                    setErrors(prev => ({
+                        ...prev,
+                        [name]: ''
+                    }));
+                }
+            };
+            
+            // バリデーション
+            const validateForm = () => {
+                const newErrors = {};
+                
+                if (!formData.title.trim()) {
+                    newErrors.title = 'タイトルは必須です';
+                } else if (formData.title.length < 3) {
+                    newErrors.title = 'タイトルは3文字以上入力してください';
+                }
+                
+                setErrors(newErrors);
+                return Object.keys(newErrors).length === 0;
+            };
+            
+            // Todo追加
+            const addTodo = (e) => {
+                e.preventDefault();
+                
+                if (!validateForm()) return;
+                
+                const newTodo = {
+                    id: Date.now(),
+                    title: formData.title.trim(),
+                    category: formData.category,
+                    priority: formData.priority,
+                    completed: false,
+                    createdAt: new Date()
+                };
+                
+                setTodos(prev => [...prev, newTodo]);
+                setFormData({ title: '', category: '学習', priority: 'medium' });
+            };
+            
+            // Todo削除
+            const deleteTodo = (id) => {
+                setTodos(prev => prev.filter(todo => todo.id !== id));
+            };
+            
+            // Todo完了切り替え
+            const toggleTodo = (id) => {
+                setTodos(prev => prev.map(todo => 
+                    todo.id === id ? { ...todo, completed: !todo.completed } : todo
+                ));
+            };
+            
+            // フィルタリング
+            const filteredTodos = todos.filter(todo => {
+                switch (filter) {
+                    case 'active': return !todo.completed;
+                    case 'completed': return todo.completed;
+                    default: return true;
+                }
+            });
+            
+            // 統計情報
+            const stats = {
+                total: todos.length,
+                completed: todos.filter(t => t.completed).length,
+                active: todos.filter(t => !t.completed).length
+            };
+            
+            // 優先度の色分け
+            const getPriorityColor = (priority) => {
+                switch (priority) {
+                    case 'high': return '#dc3545';
+                    case 'medium': return '#ffc107';
+                    case 'low': return '#28a745';
+                    default: return '#6c757d';
+                }
+            };
+
+            return (
+                <div className="app-container">
+                    <h1>🎯 React学習進捗管理アプリ</h1>
+                    
+                    {/* 統計情報 */}
+                    <div className="stats">
+                        <strong>進捗状況:</strong> 全{stats.total}項目 | 
+                        完了 {stats.completed}項目 | 
+                        残り {stats.active}項目
+                    </div>
+                    
+                    {/* 新規Todo追加フォーム */}
+                    <div className="form-section">
+                        <h3>📝 新しい学習項目を追加</h3>
+                        <form onSubmit={addTodo}>
+                            <div className="form-group">
+                                <label>学習項目</label>
+                                <input 
+                                    type="text"
+                                    name="title"
+                                    value={formData.title}
+                                    onChange={handleInputChange}
+                                    placeholder="例: useEffect を理解する"
+                                />
+                                {errors.title && <div className="error">{errors.title}</div>}
+                            </div>
+                            
+                            <div className="form-group">
+                                <label>カテゴリ</label>
+                                <select 
+                                    name="category"
+                                    value={formData.category}
+                                    onChange={handleInputChange}
+                                >
+                                    <option value="学習">学習</option>
+                                    <option value="実践">実践</option>
+                                    <option value="復習">復習</option>
+                                    <option value="プロジェクト">プロジェクト</option>
+                                </select>
+                            </div>
+                            
+                            <div className="form-group">
+                                <label>優先度</label>
+                                <select 
+                                    name="priority"
+                                    value={formData.priority}
+                                    onChange={handleInputChange}
+                                >
+                                    <option value="low">低</option>
+                                    <option value="medium">中</option>
+                                    <option value="high">高</option>
+                                </select>
+                            </div>
+                            
+                            <button type="submit" className="btn">📋 追加</button>
+                        </form>
+                    </div>
+                    
+                    {/* フィルター */}
+                    <div className="filters">
+                        <button 
+                            className={`filter-btn ${filter === 'all' ? 'active' : ''}`}
+                            onClick={() => setFilter('all')}
+                        >
+                            すべて ({stats.total})
+                        </button>
+                        <button 
+                            className={`filter-btn ${filter === 'active' ? 'active' : ''}`}
+                            onClick={() => setFilter('active')}
+                        >
+                            未完了 ({stats.active})
+                        </button>
+                        <button 
+                            className={`filter-btn ${filter === 'completed' ? 'active' : ''}`}
+                            onClick={() => setFilter('completed')}
+                        >
+                            完了済み ({stats.completed})
+                        </button>
+                    </div>
+                    
+                    {/* Todoリスト */}
+                    <div className="todo-list">
+                        {filteredTodos.length === 0 ? (
+                            <div style={{textAlign: 'center', padding: '40px', color: '#6c757d'}}>
+                                {filter === 'all' ? '学習項目がありません' : 
+                                 filter === 'active' ? '未完了の項目がありません' : 
+                                 '完了済みの項目がありません'}
+                            </div>
+                        ) : (
+                            filteredTodos.map(todo => (
+                                <div key={todo.id} className={`todo-item ${todo.completed ? 'completed' : ''}`}>
+                                    <div className="todo-content">
+                                        <div className="todo-title">
+                                            <span style={{
+                                                color: getPriorityColor(todo.priority),
+                                                marginRight: '8px'
+                                            }}>
+                                                ●
+                                            </span>
+                                            {todo.title}
+                                            {todo.completed && ' ✅'}
+                                        </div>
+                                        <div className="todo-meta">
+                                            {todo.category} | 優先度: {todo.priority} | 
+                                            作成: {todo.createdAt.toLocaleDateString()}
+                                        </div>
+                                    </div>
+                                    <div className="todo-actions">
+                                        <button 
+                                            className="btn btn-small"
+                                            onClick={() => toggleTodo(todo.id)}
+                                        >
+                                            {todo.completed ? '未完了' : '完了'}
+                                        </button>
+                                        <button 
+                                            className="btn btn-danger btn-small"
+                                            onClick={() => deleteTodo(todo.id)}
+                                        >
+                                            削除
+                                        </button>
+                                    </div>
+                                </div>
+                            ))
+                        )}
+                    </div>
+                </div>
+            );
+        }
+
+        // アプリをレンダリング
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<TodoApp />);
+    </script>
+</body>
+</html>

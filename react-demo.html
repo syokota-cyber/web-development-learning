@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React基礎デモ - ローカル確認</title>
+    <!-- React CDN -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <!-- Babel (JSXコンパイル用) -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .profile-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .interactive-profile {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            margin: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        input {
+            margin-left: 8px;
+            padding: 4px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .debug-info {
+            margin-top: 10px;
+            color: #666;
+            font-size: 12px;
+        }
+        .edit-mode, .display-mode {
+            margin: 15px 0;
+        }
+        .buttons {
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎯 React基礎学習デモ</h1>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        // 基本的なプロフィールカード
+        function ProfileCard() {
+            return (
+                <div className="profile-card">
+                    <h2>学習者プロフィール</h2>
+                    <p>名前: ショコたんご</p>
+                    <p>目標: React基礎をマスターする</p>
+                    <p>進捗: コンポーネント作成 ✅</p>
+                    <p>趣味: Web開発とプログラミング学習</p>
+                    <button>プロフィール編集</button>
+                </div>
+            );
+        }
+
+        // Props対応版
+        function ReusableProfileCard(props) {
+            return (
+                <div className="profile-card">
+                    <h2>{props.title}</h2>
+                    <p>名前: {props.name}</p>
+                    <p>目標: {props.goal}</p>
+                    <p>進捗: {props.progress}</p>
+                    <p>趣味: {props.hobby}</p>
+                    <button>{props.buttonText}</button>
+                </div>
+            );
+        }
+
+        // State対応版（インタラクティブ）
+        function InteractiveProfile() {
+            const [name, setName] = React.useState("ショコたんご");
+            const [goal, setGoal] = React.useState("React基礎をマスターする");
+            const [progress, setProgress] = React.useState("State学習中");
+            const [isEditing, setIsEditing] = React.useState(false);
+            
+            const handleEditClick = () => {
+                setIsEditing(!isEditing);
+            };
+            
+            const handleNameChange = (event) => {
+                setName(event.target.value);
+            };
+            
+            const handleGoalChange = (event) => {
+                setGoal(event.target.value);
+            };
+            
+            const updateProgress = () => {
+                setProgress("useState完全マスター! 🎉");
+            };
+
+            return (
+                <div className="interactive-profile">
+                    <h2>🔥 動的プロフィールカード</h2>
+                    
+                    {isEditing ? (
+                        <div className="edit-mode">
+                            <p>名前: 
+                                <input 
+                                    type="text" 
+                                    value={name} 
+                                    onChange={handleNameChange}
+                                />
+                            </p>
+                            <p>目標: 
+                                <input 
+                                    type="text" 
+                                    value={goal} 
+                                    onChange={handleGoalChange}
+                                />
+                            </p>
+                            <p>進捗: {progress}</p>
+                        </div>
+                    ) : (
+                        <div className="display-mode">
+                            <p>名前: {name}</p>
+                            <p>目標: {goal}</p>
+                            <p>進捗: {progress}</p>
+                        </div>
+                    )}
+                    
+                    <div className="buttons">
+                        <button onClick={handleEditClick}>
+                            {isEditing ? "保存" : "編集"}
+                        </button>
+                        <button onClick={updateProgress}>
+                            進捗を更新
+                        </button>
+                    </div>
+                    
+                    <div className="debug-info">
+                        編集モード: {isEditing ? "ON" : "OFF"}
+                    </div>
+                </div>
+            );
+        }
+
+        // メインアプリ
+        function App() {
+            return (
+                <div>
+                    <ProfileCard />
+                    
+                    <h3>📦 Props使用例</h3>
+                    <ReusableProfileCard 
+                        title="開発者プロフィール"
+                        name="田中太郎"
+                        goal="フルスタック開発者になる"
+                        progress="バックエンド学習中 ⚡"
+                        hobby="ゲーム制作とアニメ"
+                        buttonText="詳細を見る"
+                    />
+                    
+                    <h3>⚡ State & イベント使用例</h3>
+                    <InteractiveProfile />
+                </div>
+            );
+        }
+
+        // Reactアプリをレンダリング
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
