@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Node.js ホームページ - 外部ファイル版</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>🏠 ようこそ！（外部ファイル版）</h1>
+    <div class="time" id="current-time">
+      現在時刻: 読み込み中...
+    </div>
+    <div class="nav-buttons">
+      <a href="/api" class="btn">📊 API情報</a>
+      <a href="/weather" class="btn weather-btn">🌤️ 天気情報</a>
+      <a href="/config" class="btn" style="background: #28a745;">⚙️ 設定管理</a>
+      <a href="/logs" class="btn" style="background: #17a2b8;">📊 ログ管理</a>
+    </div>
+    <div class="file-info">
+      <p>📁 このページは <strong>index.html</strong> から読み込まれています</p>
+      <p>🎨 スタイルは <strong>style.css</strong> から適用</p>
+      <p>⚡ 動作は <strong>script.js</strong> で制御</p>
+    </div>
+  </div>
+  
+  <!-- 外部JavaScriptファイルを読み込み -->
+  <script src="script.js"></script>
+</body>
+</html>

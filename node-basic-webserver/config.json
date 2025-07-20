@@ -1,0 +1,23 @@
+{
+  "server": {
+    "port": 8080,
+    "host": "localhost",
+    "name": "Node.js学習サーバー"
+  },
+  "weather": {
+    "defaultCity": "東京",
+    "updateInterval": 1000,
+    "simulationMode": true
+  },
+  "logging": {
+    "enabled": true,
+    "logFile": "access.log",
+    "logLevel": "info"
+  },
+  "features": {
+    "staticFiles": true,
+    "weatherAPI": true,
+    "userStorage": true
+  },
+  "lastUpdated": "2025-07-20T02:30:00.000Z"
+}
