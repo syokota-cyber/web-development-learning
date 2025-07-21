@@ -627,6 +627,15 @@ const server = http.createServer((req, res) => {
         res.end(JSON.stringify({status: 'error', message: 'データの解析に失敗しました'}));
       }
     });
+  } else if (url === '/react-step1') {
+    // React学習 - ステップ1: 静的HTML
+    serveStaticFile('react-step1.html', res, req);
+  } else if (url === '/react-step4') {
+    // React学習 - ステップ4: 入力とリアルタイム更新
+    serveStaticFile('react-step4.html', res, req);
+  } else if (url === '/react-step5') {
+    // React学習 - ステップ5: API切り替えアプリ
+    serveStaticFile('react-step5.html', res, req);
   } else if (url.startsWith('/style.css') || url.startsWith('/script.js')) {
     // 静的ファイル（CSS, JS）を配信
     const fileName = url.substring(1); // 先頭の'/'を除去

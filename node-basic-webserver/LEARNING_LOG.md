@@ -144,3 +144,53 @@ res.writeHead(200, {'Content-Type': 'application/json'});
 2. **エラー体験**: わざと間違えて、修正過程で理解を深める
 3. **仕組み理解**: 「何が」「なぜ」「どのように」を意識
 4. **実用重視**: 実際に使える機能を作ることでモチベーション維持
+
+---
+
+# React + Node.js 連携学習ログ - 2025年7月21日
+
+## 🎯 今日の学習目標
+React + Node.js連携を既存プロジェクトを活用して段階的に学習する
+
+## 📚 学習内容と成果
+
+### ✅ 習得した技術概念
+
+#### 1. **同一サーバー内でのReact配信方式**
+- Node.jsサーバーからReactアプリを配信する仕組み
+- テンプレート方式の理解
+- CORS問題の回避方法
+
+#### 2. **段階的実装手法**
+- ステップ1: 静的HTML → ステップ3: React基本 → ステップ4: 入力処理 → ステップ5: API連携
+- 一度に5行以内のコード追加
+- エラー原因の特定と解決
+
+#### 3. **React基礎**
+- CDN方式でのReact導入
+- `React.createElement`の使用
+- `useState`による状態管理
+- イベントハンドリング（`onClick`, `onChange`）
+
+#### 4. **API連携**
+- `fetch`を使った非同期通信
+- 複数APIエンドポイントの活用（`/api`, `/logs/api`）
+- JSONデータの表示
+
+### 🛠️ 実装したファイル
+
+#### 新規作成ファイル
+- `public/react-step1.html` - 静的HTML + React CDN + 基本コンポーネント
+- `public/react-step4.html` - 入力とリアルタイム更新
+- `public/react-step5.html` - API切り替えアプリ
+
+#### 修正ファイル
+- `server.js` - 新しいルート追加（/react-step1, /react-step4, /react-step5）
+
+### 🚀 次回学習予定
+- テンプレート方式の活用
+- より実用的なReactアプリ
+- Vercel Functions（サーバーレス）
+
+## 🎉 今日の最大の成果
+**React + Node.js API連携アプリ完成**: 2つのボタンで異なるAPIを呼び出し、結果をリアルタイム表示

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Step1: 静的HTML</title>
+</head>
+<body>
+    <div id="app">
+        <h1>Hello World - 静的版</h1>
+    </div>
+    
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    
+    <script>
+        ReactDOM.render(
+            React.createElement('h1', null, 'Hello React!'),
+            document.getElementById('app')
+        );
+    </script>
+</body>
+</html>

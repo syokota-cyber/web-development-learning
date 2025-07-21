@@ -9,3 +9,32 @@
 2025-07-20T03:18:34.030Z | ::1 | GET / | 200 | Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36
 2025-07-20T03:18:34.046Z | ::1 | GET /style.css | 200 | Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36
 2025-07-20T03:18:34.048Z | ::1 | GET /script.js | 200 | Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36
+2025-07-21T01:16:41.878Z | ::1 | GET /react-step1 | 404 | Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36
+2025-07-21T01:19:25.420Z | ::1 | GET / | 200 | Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36
+2025-07-21T01:19:25.427Z | ::1 | GET /style.css | 200 | Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36
+2025-07-21T01:19:25.428Z | ::1 | GET /script.js | 200 | Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36
+2025-07-21T01:27:18.175Z | ::1 | GET /react-step1 | 200 | curl/8.7.1
+2025-07-21T01:27:40.694Z | ::1 | GET / | 200 | Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36
+2025-07-21T01:27:40.706Z | ::1 | GET /style.css | 200 | Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36
+2025-07-21T01:27:40.707Z | ::1 | GET /script.js | 200 | Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36
+2025-07-21T01:27:41.493Z | ::1 | GET / | 200 | Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36
+2025-07-21T01:27:41.508Z | ::1 | GET /style.css | 200 | Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36
+2025-07-21T01:27:41.512Z | ::1 | GET /script.js | 200 | Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36
+2025-07-21T01:28:30.830Z | ::1 | GET /react-step1 | 200 | curl/8.7.1
+2025-07-21T01:29:56.159Z | ::1 | GET /react-step1 | 200 | curl/8.7.1
+2025-07-21T01:30:11.457Z | ::1 | GET / | 200 | Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36
+2025-07-21T01:30:11.464Z | ::1 | GET /style.css | 200 | Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36
+2025-07-21T01:30:11.465Z | ::1 | GET /script.js | 200 | Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36
+2025-07-21T01:30:30.272Z | ::1 | GET /react-step1 | 200 | Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36
+2025-07-21T05:09:53.826Z | ::1 | GET /react-step4 | 404 | Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36
+2025-07-21T05:10:39.470Z | ::1 | GET /react-step4 | 404 | curl/8.7.1
+2025-07-21T05:13:06.921Z | ::1 | GET /react-step4 | 200 | curl/8.7.1
+2025-07-21T05:13:22.685Z | ::1 | GET /react-step4 | 200 | Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36
+2025-07-21T05:18:50.371Z | ::1 | GET /api | 200 | curl/8.7.1
+2025-07-21T05:18:54.675Z | ::1 | GET /logs/api | 200 | curl/8.7.1
+2025-07-21T05:28:23.104Z | ::1 | GET /react-step5 | 200 | Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36
+2025-07-21T05:28:29.220Z | ::1 | GET /api | 200 | Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36
+2025-07-21T05:29:53.523Z | ::1 | GET /react-step5 | 200 | Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36
+2025-07-21T05:29:56.972Z | ::1 | GET /logs/api | 200 | Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36
+2025-07-21T05:29:57.824Z | ::1 | GET /api | 200 | Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36
+2025-07-21T05:29:58.859Z | ::1 | GET /logs/api | 200 | Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36
