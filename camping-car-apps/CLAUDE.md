@@ -92,3 +92,108 @@ $function$;
 2. **定期監査**: 月次でSecurity Advisor確認
 3. **ドキュメント更新**: セキュリティ変更時の記録徹底
 4. **学習継続**: PostgreSQL・Supabaseセキュリティの深化
+
+---
+
+## 🔄 **開発環境同期・バージョン管理の鉄則（2025年8月19日追加）**
+
+### 「本番同期ファースト・バージョン管理必須・差異ゼロ」原則
+**重要な教訓**: 2025年8月19日、本番環境と開発環境の差異により、マスターデータ不整合・機能動作不良が発生。完全同期により解決した成功体験を記録。
+
+#### **メジャー・マイナーアップデート時の必須プロセス**
+1. **本番環境の完全バックアップ**: スキーマ・マスターデータ・設定の保存
+2. **開発環境の初期化**: 古いデータの完全クリア
+3. **本番→開発 完全同期**: 読み取り専用での安全な同期
+4. **バージョン管理**: 同期状態の記録と追跡
+
+#### **同期対象の必須チェックリスト**
+- [ ] **マスターデータテーブル**
+  - [ ] `main_purposes` - メイン目的マスターデータ
+  - [ ] `sub_purposes` - サブ目的マスターデータ  
+  - [ ] `default_items` - 推奨持ち物マスターデータ
+  - [ ] `travel_rules` - ルール・マナーマスターデータ
+- [ ] **テーブル構造**
+  - [ ] カラム定義（新規追加カラム含む）
+  - [ ] インデックス設定
+  - [ ] 制約条件（外部キー、CHECK制約）
+- [ ] **セキュリティ設定**
+  - [ ] RLS（Row Level Security）有効状態
+  - [ ] ポリシー定義
+  - [ ] 権限設定
+
+#### **バージョン管理コマンドセット**
+```bash
+# === 本番環境同期用コマンド（安全・読み取り専用） ===
+
+# 1. 本番環境マスターデータの取得
+curl "https://rwxllvnuuxabvgxpeuma.supabase.co/rest/v1/main_purposes?select=*" \
+  -H "apikey: [本番API Key]" > production_main_purposes.json
+
+curl "https://rwxllvnuuxabvgxpeuma.supabase.co/rest/v1/sub_purposes?select=*" \
+  -H "apikey: [本番API Key]" > production_sub_purposes.json
+
+curl "https://rwxllvnuuxabvgxpeuma.supabase.co/rest/v1/default_items?select=*" \
+  -H "apikey: [本番API Key]" > production_default_items.json
+
+curl "https://rwxllvnuuxabvgxpeuma.supabase.co/rest/v1/travel_rules?select=*" \
+  -H "apikey: [本番API Key]" > production_travel_rules.json
+
+# 2. 開発環境のマスターデータクリア（ローカルのみ）
+psql "postgresql://postgres:postgres@localhost:54322/postgres" -c \
+  "TRUNCATE main_purposes, sub_purposes, default_items, travel_rules RESTART IDENTITY CASCADE;"
+
+# 3. 本番データの開発環境投入
+node sync_master_data.js  # JSONをSQLに変換して投入
+
+# 4. 同期状態の記録
+echo "$(date): Production sync completed" >> sync_history.log
+git add production_*.json sync_history.log
+git commit -m "🔄 Production master data sync - $(date +%Y-%m-%d)"
+```
+
+#### **定期同期スケジュール**
+- **メジャーアップデート前**: 必須実行
+- **マイナーアップデート前**: 推奨実行
+- **月次定期実行**: データ整合性確保
+- **機能追加時**: マスターデータ変更確認後実行
+
+#### **同期確認・検証プロセス**
+```bash
+# 同期後の確認コマンド
+echo "=== Master Data Count Verification ==="
+psql "$LOCAL_DB" -c "
+SELECT 'main_purposes' as table_name, count(*) as count FROM main_purposes
+UNION ALL
+SELECT 'sub_purposes', count(*) FROM sub_purposes  
+UNION ALL
+SELECT 'default_items', count(*) FROM default_items
+UNION ALL
+SELECT 'travel_rules', count(*) FROM travel_rules;"
+
+# 重複データ確認
+psql "$LOCAL_DB" -c "
+SELECT table_name, duplicate_count FROM (
+  SELECT 'sub_purposes' as table_name, count(*) - count(DISTINCT name) as duplicate_count FROM sub_purposes
+  UNION ALL
+  SELECT 'main_purposes', count(*) - count(DISTINCT name) FROM main_purposes
+) t WHERE duplicate_count > 0;"
+```
+
+#### **バージョン履歴管理**
+- **sync_history.log**: 同期実行履歴
+- **Git タグ**: `sync-YYYY-MM-DD` 形式でバージョン管理
+- **Migration記録**: `/supabase/migrations/` 内でスキーマ変更を管理
+- **バックアップ保持**: 直近3回分の同期データを保持
+
+#### **絶対禁止事項（同期関連）**
+- ❌ **本番環境への書き込み**: 同期は常に読み取り専用
+- ❌ **部分的な同期**: 一部テーブルのみの同期は整合性を破綻させる
+- ❌ **手動データ投入**: 本番未反映のマスターデータ追加禁止
+- ❌ **RLS設定の無断変更**: セキュリティ設定は本番環境に合わせる
+- ❌ **同期記録の省略**: バージョン管理なしの同期は事故の元
+
+#### **同期失敗時の復旧手順**
+1. **Migration履歴からの復旧**: 直前の正常な状態に戻す
+2. **バックアップからの復元**: sync_history.logから正常バージョン特定
+3. **段階的再同期**: テーブル単位での部分的再実行
+4. **整合性チェック**: 外部キー制約・データ関連性の確認
