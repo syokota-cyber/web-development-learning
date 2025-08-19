@@ -67,6 +67,7 @@ TO anon
 USING (true);
 
 -- Trip Checklists (trip-based access, trips table has user_id)
+DROP POLICY IF EXISTS "Users can read own trip_checklists" ON public.trip_checklists;
 CREATE POLICY "Users can read own trip_checklists" 
 ON public.trip_checklists FOR SELECT 
 TO authenticated 
@@ -78,6 +79,7 @@ USING (
   )
 );
 
+DROP POLICY IF EXISTS "Users can insert own trip_checklists" ON public.trip_checklists;
 CREATE POLICY "Users can insert own trip_checklists" 
 ON public.trip_checklists FOR INSERT 
 TO authenticated 
@@ -89,6 +91,7 @@ WITH CHECK (
   )
 );
 
+DROP POLICY IF EXISTS "Users can update own trip_checklists" ON public.trip_checklists;
 CREATE POLICY "Users can update own trip_checklists" 
 ON public.trip_checklists FOR UPDATE 
 TO authenticated 
@@ -107,6 +110,7 @@ WITH CHECK (
   )
 );
 
+DROP POLICY IF EXISTS "Users can delete own trip_checklists" ON public.trip_checklists;
 CREATE POLICY "Users can delete own trip_checklists" 
 ON public.trip_checklists FOR DELETE 
 TO authenticated 
