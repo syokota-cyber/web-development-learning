@@ -3,6 +3,11 @@
 **元サイト**: [Camping Car Travel Tips](https://campingcartraveltips.com/)  
 **目的**: キャンピングカー・旅行愛好家向けの実用的なWebアプリケーション開発
 
+## 🎯 **開発作業開始前に必読**
+- 📂 **[PROJECT_DIRECTORY_MAP.md](./PROJECT_DIRECTORY_MAP.md)** ← **プロジェクト構造・作業場所の確認**
+- ⚙️ **[CLAUDE.md](./CLAUDE.md)** ← **開発ルール・運用方針**
+- 📋 **[PROJECT_MANAGEMENT_DEFINITION.md](./PROJECT_MANAGEMENT_DEFINITION.md)** ← **詳細管理ルール**
+
 ## 📁 プロジェクト構成
 
 ```
